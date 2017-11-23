@@ -9,6 +9,7 @@ title cpel Compiler
 goto start
 
 :start
+:: Starts making the compiled file
 (
 @echo off
 echo @echo off
@@ -31,6 +32,7 @@ goto compile
 
 :er
 cls
+:: If the file is wrong
 echo Not existent!
 pause
 goto start
@@ -40,14 +42,17 @@ cls
 echo cpel Name (without .cpel):
 set /p xt= ""
 if not exist "%xt%.cpel" goto er
+:: Copies the script and a new line to the clipboard
 (
 type "%~dp0%xt%.cpel"
 )|clip
 cls
 echo Right-click to confirm:
+:: When the user right clicks, the script and a new line will be pasted and dealt with as if the user had written it himself - a rather neat concept I would say!
 goto compile
 
 :compile
+:: From here on is the compiling system, it is fairly straightforward and adds comments to the compiled batch file. 
 set /a line=%line%+1
 set cmd=-
 set /p cmd= "[0m%line% | [1;32m "
@@ -187,9 +192,12 @@ ren "%~dp0/sys2.cpel" "sys.bat"
 goto compile
 
 :compilend
+:: End of compiling
+:: Clears the clipboard
 (
 @echo off
 )|clip
+:: Renames the compiled file into the name the user entered
 (
 @echo off
 type "sys.cpel"
@@ -204,12 +212,14 @@ ren "sys.cpel" "%xt%.cpel"
 echo. 
 cls
 echo [0m Compiling...
+:: Just for fun, I added a wait. 
 ping localhost >nul
 :ec
 set ce=nul
 echo [0m Compiled!
 echo. 
 echo. 
+:: Gives a few options. The user can edit in Notepad (or anything), a feature I added recently with the copy/paste idea. 
 echo 1= Run program
 echo 2= Open CPEL in notepad
 echo 3= Exit
@@ -226,6 +236,7 @@ goto ec
 
 :rp
 cls
+:: Runs program
 call "compiled_%xt%.bat"
 cls
 goto ec
