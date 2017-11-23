@@ -1,5 +1,8 @@
-DEVICE=ANSI.SYS
+:: Made by Addison Djatschenko
+:: Github: https://github.com/AddisonPascal/cpel
 :: Version 1.0.4
+set cpelv=04
+DEVICE=ANSI.SYS
 @echo off
 mode 1000
 title cpel Compiler
@@ -9,7 +12,7 @@ goto start
 (
 @echo off
 echo @echo off
-echo rem Compiled by Addison's cpel Compiler from cpel v04. 
+echo rem Compiled by Addison's cpel Compiler from cpel v%cpelv%. 
 )>sys.bat
 (
 @echo off
@@ -17,8 +20,10 @@ echo rem Compiled by Addison's cpel Compiler from cpel v04.
 cls
 echo 1= Start new
 echo 2= Import from cpel
+echo 3= Exit
 set /p home= "-->"
 if %home%==2 goto importcpel
+if %home%==3 exit
 cls
 set /p xt= "Script Name: "
 echo Type the program here:
@@ -39,7 +44,7 @@ if not exist "%xt%.cpel" goto er
 type "%~dp0%xt%.cpel"
 )|clip
 cls
-echo Right-click to confirm that you are not a bot:
+echo Right-click to confirm:
 goto compile
 
 :compile
